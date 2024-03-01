@@ -1,6 +1,6 @@
 /// main function: call from here a proper ex* method
 fn main() {
-    ex1();
+    ex11();
 }
 
 /// a default lifecycle and scope of a variable
@@ -134,4 +134,17 @@ fn first_word(s : &String) -> &str { // return slice of String
         }
     }
     &s[..] // return slice containing whole text
+}
+
+/// int slice
+fn ex11() {
+    let a = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
+
+    let a1 = &a[0..5];
+    let a2 = &a[..3];
+    let a3 = &a[7..];
+
+    println!("{:?}", a1);
+    println!("{:?}", a2);
+    println!("{:?}", a3);
 }
