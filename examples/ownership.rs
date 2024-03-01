@@ -122,14 +122,13 @@ fn ex10() {
     let s = String::from("Hello Rust");
     let first = first_word(&s);
 
-    let s: &str = "Hello Rust";
     println!("{first}");
 }
 
 #[allow(dead_code)]
 fn first_word(s : &String) -> &str { // return slice of String
 
-    for (i, c) in s.chars().enumerate() {
+    for (i, c) in s.char_indices() {
         if c == ' ' {
             return &s[..i]; // return slice containing first word
         }
