@@ -1,6 +1,8 @@
+#![allow(warnings)]
+
 /// main function: call from here a proper ex* method
 fn main() {
-    ex11();
+    ex5();
 }
 
 /// a default lifecycle and scope of a variable
@@ -52,12 +54,12 @@ fn small(s : String) -> String {
 #[allow(dead_code)]
 fn ex5() {
     let s1 = String::from("Let's ...");
-    let (s1, s2) = small2(s1);
+    let (s2, s1) = small2(s1);
 
-    println!("{s1}");
+    println!("{s1}, {s2}");
 }
 fn small2(s : String) -> (String, String) {
-    (s.clone(), s.to_lowercase())
+    (s.to_lowercase(), s)  // try to swap variables in the tuple, what happens?
 }
 
 /// borrow a string value using reference
@@ -137,6 +139,7 @@ fn first_word(s : &String) -> &str { // return slice of String
 }
 
 /// int slice
+#[allow(dead_code)]
 fn ex11() {
     let a = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144];
 
