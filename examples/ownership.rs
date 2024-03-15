@@ -2,7 +2,7 @@
 
 /// main function: call from here a proper ex* method
 fn main() {
-    ex5();
+    ex1();
 }
 
 /// a default lifecycle and scope of a variable
@@ -11,8 +11,9 @@ fn ex1() {
     // here s1 is not valid - not declared yet
     let s1 = String::from("Let's ..."); // s1 is created here
 
-    // now you can perform some operations on s
-}   // we are out of the scope, s is not valid (the value is dropped)
+    // now you can perform some operations on s1
+
+}   // we are out of the scope, s1 is not valid (the value is dropped)
 
 /// move with assignment
 #[allow(dead_code)]
