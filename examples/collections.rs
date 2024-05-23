@@ -12,7 +12,7 @@ fn borrow(i : &i32) {
 #[allow(unused)]
 mod tests {
     use std::collections::HashMap;
-    use crate::{borrow, words_stats};
+    use crate::{borrow, split_to_words, words_stats};
 
     #[test]
     fn vec_intro() {
@@ -46,6 +46,14 @@ mod tests {
     }
 
     #[test]
+    fn vec_iter() {
+        let v = vec![1, 2, 3];
+
+        for e in v {
+            println!("{}", e);
+        }
+    }
+    #[test]
     fn vec_immutable_iter() {
         let v = vec![1, 2, 3];
 
@@ -54,11 +62,12 @@ mod tests {
         }
     }
 
+    #[test]
     fn vec_mutable_iter() {
         let mut v = vec![1, 2, 3];
 
         for e in &mut v { // mutable borrow
-            *e += 2;
+            *e *= 2;
         }
 
         assert_eq!(vec![2, 4, 6], v);
@@ -72,6 +81,8 @@ mod tests {
         map.insert(String::from("world"), 1);
         map.insert(String::from("rust"), 2);
 
+        let el = map.get("rust");
+
         for (text, number) in &map {
             println!("{} has {} occurrences", text, number);
         }
@@ -83,7 +94,7 @@ mod tests {
     fn hash_map_words_stats() {
         let text = "Litwo! Ojczyzno moja! ty jesteś jak zdrowie. Litwo!";
 
-        let stats = words_stats(text);
+        let stats = words_stats(&split_to_words(text));
         assert_eq!(*stats.get("ojczyzno").unwrap(), 1);
         assert_eq!(*stats.get("litwo").unwrap(), 2);
     }
@@ -96,21 +107,31 @@ fn hash_map_words_stats_poem() {
     let response = reqwest::blocking::get("https://wolnelektury.pl/media/book/txt/pan-tadeusz.txt").expect("Cannot get poem from a given URL");
     let poem = response.text().unwrap();
 
-    let stats = words_stats(&poem);
+    let stats = words_stats(&split_to_words(&poem));
     let sorted_stats = sort_stats(&stats);
     println!("{:?}", &sorted_stats[..20]);
 }
 
 
-fn words_stats(s: &str) -> HashMap<String, i32> {
-    let mut map = HashMap::new();
 
+fn split_to_words(s: &str) -> Vec<String> {
+    let mut words = Vec::new();
     for word in s.split_whitespace() {
         let unified_word = word.trim_matches(|c| char::is_ascii_punctuation(&c)).to_lowercase();
-        if unified_word.len() > 4 {
-            let count = map.entry(unified_word).or_insert(0);
-            *count += 1;
-            // map.entry(unified_word).and_modify(|counter| *counter += 1).or_insert(1);
+        words.push(unified_word);
+    }
+    words
+}
+
+fn words_stats(words: &Vec<String>) -> HashMap<String, i32> {
+    let mut map = HashMap::new();
+
+    for word in words {
+        if word.len() > 4 {
+            // let count = map.entry(word.to_owned()).or_insert(0);
+            // *count += 1;
+            map.entry(word.to_owned()).and_modify(|counter| *counter += 1).or_insert(1);
+            //*map.entry(word.to_owned()).or_insert(0) += 1;
         }
     }
     map
@@ -126,3 +147,6 @@ fn sort_stats(stats : &HashMap<String, i32>) -> Vec<(&str, i32)> {
 
     sorted_stats
 }
+
+
+

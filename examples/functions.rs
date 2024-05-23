@@ -13,6 +13,7 @@ mod tests {
 
         assert_eq!(increment_v2(4), 5);
         assert_eq!(increment_v3(4), 5);
+
     }
 
     #[test]
@@ -39,7 +40,10 @@ mod tests {
         let mut add_to_x = |a| x += a;
 
         add_to_x(5);
-        assert_eq!(x, 10);
+        add_to_x(1);
+        assert_eq!(x, 11);
+        x += 1;
+        assert_eq!(x, 12);
 
     }
 
