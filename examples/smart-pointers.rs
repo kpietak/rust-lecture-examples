@@ -239,12 +239,12 @@ mod tests {
         #[derive(Debug)]
         struct Node {
             label: String,
-            edges: Rc<RefCell<Vec<Rc<Edge>>>>
+            edges: RefCell<Vec<Rc<Edge>>>
         }
 
         impl Node {
             fn new(label: String) -> Rc<Node> {
-                Rc::new(Node { label, edges : Rc::new(RefCell::new(Vec::new())) })
+                Rc::new(Node { label, edges : RefCell::new(Vec::new()) })
             }
         }
 
